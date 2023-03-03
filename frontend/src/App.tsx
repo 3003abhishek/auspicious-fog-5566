@@ -1,15 +1,21 @@
-import { Box } from '@chakra-ui/react'
-import { useState } from 'react'
-import './App.css'
-import Home from './Pages/Home'
-function App() {
-  const [count, setCount] = useState(0)
 
+
+import { Box } from "@chakra-ui/react";
+import "./App.css";
+import Home from "./Pages/Home";
+import { ChakraProvider } from "@chakra-ui/react";
+
+
+function App() {
   return (
     <Box className="App">
-      <Home/>
+
+      <ChakraProvider>
+        <Home />
+      </ChakraProvider>
+
     </Box>
-  )
+  );
 }
 
-export default App
+export default App;
