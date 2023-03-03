@@ -18,6 +18,8 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 type Props = {
   backgroundColor: string;
 };
@@ -29,12 +31,14 @@ const GameOptions = () => {
   let [player1, setPlayer1] = React.useState<string>("");
   let [player2, setPlayer2] = React.useState<string>("");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  let navigate = useNavigate();
+
   const toast = useToast();
   let handleAdd = () => {
     if (mode === "select") {
       toast({
         title: "Select Category and Players",
-
+        position: "top",
         status: "info",
         duration: 3000,
         isClosable: true,
@@ -43,29 +47,34 @@ const GameOptions = () => {
     } else if (mode === "single" && !player1) {
       toast({
         title: "Select Player1",
-
+        position: "top",
         status: "info",
         duration: 3000,
         isClosable: true,
       });
       isOpen = isOpen;
-    } else if (mode === "multi" && !player1 && !player2) {
+    } else if (mode === "multi" && (!player1 || !player2)) {
       toast({
         title: "Select Player1 and player2",
-
+        position: "top",
         status: "info",
         duration: 3000,
         isClosable: true,
       });
       isOpen = isOpen;
     }
+    navigate("/level");
     onClose();
     setMode("select");
   };
 
-  console.log(mode);
-  console.log(player1);
-  console.log(player2);
+  useEffect(() => {
+    setMode("select");
+  }, []);
+
+  // console.log(mode);
+  // console.log(player1);
+  // console.log(player2);
   return (
     <Box
       w={{ lg: "25%", md: "30%", base: "75%" }}

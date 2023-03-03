@@ -2,17 +2,13 @@ import { Box } from "@chakra-ui/react";
 import "./App.css";
 import Home from "./Pages/Home";
 import Difficulty from "./Pages/Difficulty";
-import { ChakraProvider } from "@chakra-ui/react";
 
+import AllRoutes from "./routes/AllRoutes";
 
 function App() {
   return (
     <Box className="App">
-
-      <ChakraProvider>
-        <Difficulty />
-      </ChakraProvider>
-
+      <AllRoutes />
     </Box>
   );
 }
