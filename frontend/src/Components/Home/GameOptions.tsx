@@ -65,9 +65,9 @@ const GameOptions = () => {
           <ModalBody>
             <VStack spacing={5}>
               <FormControl>
-                <FormLabel>Choose to play 🙂</FormLabel>
+                <FormLabel>Let's play 🎮</FormLabel>
                 <Select onChange={(e) => setMode(e.target.value)}>
-                  <option>Select Mode</option>
+                  <option value="select">Select Mode</option>
                   <option value="single">Single Player</option>
                   <option value="multi">Multi Player</option>
                 </Select>
@@ -107,10 +107,16 @@ const GameOptions = () => {
             </VStack>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
+            <Button colorScheme="yellow" variant="solid" mr={3}>
               Add
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button
+              onClick={onClose}
+              backgroundColor={"white"}
+              _hover={{ backgroundColor: "red.400" }}
+            >
+              Cancel
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
