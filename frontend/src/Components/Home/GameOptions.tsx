@@ -35,7 +35,7 @@ const GameOptions = () => {
   let [player1, setPlayer1] = React.useState<string>("");
   let [player2, setPlayer2] = React.useState<string>("");
   let [play, setPlay] = React.useState<boolean>(true);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  let { isOpen, onOpen, onClose } = useDisclosure();
   let navigate = useNavigate();
 
   const toast = useToast();
@@ -80,11 +80,12 @@ const GameOptions = () => {
         isClosable: true,
       });
       isOpen = isOpen;
+    } else {
+      navigate("/level");
+      onClose();
+      setMode("select");
+      playSound(play);
     }
-    navigate("/level");
-    onClose();
-    setMode("select");
-    playSound(play);
   };
 
   let handleSound = () => {
