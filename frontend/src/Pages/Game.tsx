@@ -9,7 +9,6 @@ import { useNavigate } from "react-router";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 
 const Game = () => {
-
   const { socket, userName, currentRoom }: any = useContext(SocketContext);
   const [count, setCount] = useState<number>(0);
   const [time, setTime] = useState(0);
@@ -68,6 +67,7 @@ const Game = () => {
           src={Logo}
           alt={"logo"}
           w={{ lg: "5%", md: "15%", base: "25%" }}
+          onClick={() => navigate("/")}
         />
         <Flex
           direction={{ lg: "row", md: "column", base: "column" }}
@@ -113,6 +113,7 @@ const Game = () => {
                     setCount(0);
                     if (currentRoom) socket.emit("delete:room", currentRoom)
                     navigate("/");
+                    playSound(true);
                   }}
                 >
                   Main Menu
@@ -160,7 +161,7 @@ const Game = () => {
                   onClick={() => {
                     setCount(0);
                     setTime(0);
-                    navigate("/level")
+                    navigate("/level");
                   }}
                 >
                   Back
@@ -184,7 +185,6 @@ const Game = () => {
         </Flex>
       </Flex>
     </>
-
   );
 };
 

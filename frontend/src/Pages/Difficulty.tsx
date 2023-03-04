@@ -9,7 +9,8 @@ import LogoBar from "../Components/Home/LogoBar";
 import GameOptions from "../Components/Home/GameOptions";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
-
+import DisplayWinner from "../Components/DisplayWinner";
+import { flowSound, playSound } from "../Components/Sound";
 let Difficulty = () => {
   let [difficultyValue, setdifficultyValue] = useState<string>("");
   let handleDifficulty = (propValue: string): void => {
@@ -18,7 +19,8 @@ let Difficulty = () => {
   let navigate = useNavigate();
   console.log(difficultyValue);
   let handleBack = () => {
-    navigate(-1);
+    navigate("/");
+    playSound(true);
   };
   return (
     <Flex
@@ -56,6 +58,7 @@ let Difficulty = () => {
       </Box>
       <Box>
         <DifficultyOptions onDifficultyChange={handleDifficulty} />
+        {/* <DisplayWinner/> */}
       </Box>
       {/* <Players onPropChange={handlePlayer} /> */}
     </Flex>
