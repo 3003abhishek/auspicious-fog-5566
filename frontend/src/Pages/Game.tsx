@@ -109,6 +109,7 @@ const Game = () => {
                   Time : &nbsp; &nbsp; {time}
                 </Text>
                 <Button
+                  my={"1rem"}
                   colorScheme="teal"
                   size={"lg"}
                   variant="outline"
