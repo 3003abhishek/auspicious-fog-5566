@@ -24,7 +24,6 @@ io.on("connection", socket => {
                 }
             }
             rooms.push(room);
-            console.log("Rooms: ", rooms);
             socket.join(roomName);
             io.to(roomName).emit("room:created", roomName + " created", room);
             io.emit("get:rooms", rooms)
@@ -90,11 +89,10 @@ io.on("connection", socket => {
     socket.on("delete:room", (currentRoom) => {
         const index = rooms.findIndex((room) => room.room_name === currentRoom.room_name);
         if (index >= 0) {
-            let player1 = rooms[index].players[Object.keys(rooms[index].players)[0]];
-            let player2 = rooms[index].players[Object.keys(rooms[index].players)[1]];
             rooms.splice(index, 1);
             io.to(currentRoom.room_name).emit("room:deleted", `Room ${currentRoom.room_name} deleted.`);
             socket.leave(currentRoom.room_name);
+            io.emit("get:rooms", rooms)
         } else {
             io.to(socket.id).emit("room:deleted", "Room doesn't exist.");
         }
