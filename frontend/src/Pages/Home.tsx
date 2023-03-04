@@ -1,9 +1,7 @@
-
-import React from 'react'
-import { Box } from '@chakra-ui/react';
-import Players from '../Components/Home/player';
-import { useState } from 'react';
-
+import React from "react";
+import { Box } from "@chakra-ui/react";
+import Players from "../Components/Home/player";
+import { useState } from "react";
 
 import { Flex } from "@chakra-ui/react";
 import LogoBar from "../Components/Home/LogoBar";
@@ -18,7 +16,6 @@ const Home = () => {
   console.log(player);
 
   return (
-
     <Flex
       w={"100%"}
       minH={"100vh"}
@@ -31,10 +28,9 @@ const Home = () => {
     >
       <LogoBar width={"18%"} />
       <GameOptions />
-    
+      {/* <Players onPropChange={handlePlayer} /> */}
     </Flex>
   );
 };
-
 
 export default Home;
