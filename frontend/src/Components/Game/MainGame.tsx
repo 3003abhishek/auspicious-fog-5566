@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import React, { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 
 interface MainGameProps {
@@ -129,22 +129,22 @@ const MainGame = (props: MainGameProps) => {
         }}
       ></Box>
       {count === 10 && (
-          <Box
-            className="game"
-            h="50px"
-            w="50px"
-            bgColor="red"
-            borderRadius="50%"
-            cursor="pointer"
-            position="absolute"
-            top={position4.top + "px"}
-            left={position4.left + "px"}
-            onClick={() => {
-              changePosition4(0, 900, 350);
-              setCount(count + 10);
-            }}
-          ></Box>
-        )}
+        <Box
+          className="game"
+          h="50px"
+          w="50px"
+          bgColor="red"
+          borderRadius="50%"
+          cursor="pointer"
+          position="absolute"
+          top={position4.top + "px"}
+          left={position4.left + "px"}
+          onClick={() => {
+            changePosition4(0, 900, 350);
+            setCount(count + 10);
+          }}
+        ></Box>
+      )}
     </>
   );
 };
