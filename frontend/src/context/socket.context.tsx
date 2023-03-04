@@ -21,10 +21,12 @@ export type TContext = {
     rooms?: Array<IRoom>,
     currentRoom?: IRoom,
     playerOne?: IUser,
-    playerTwo?: IUser
+    playerTwo?: IUser,
+    userName?:string,
+    setUserName?:(arg:string)=>void
 }
 
-export const SocketContext = createContext<TContext | null>(null);
+export const SocketContext = createContext<TContext | string>("");
 
 const SocketContextProvider = ({ children }: { children: React.ReactNode }) => {
     const toastMsg: TToastMsg = useToastMsg();
@@ -33,6 +35,7 @@ const SocketContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [currentRoom, setCurrentRoom] = useState<IRoom>()
     const [playerOne, setPlayerOne] = useState<IUser>()
     const [playerTwo, setPlayerTwo] = useState<IUser>()
+    const [userName,setUserName]=useState<string>("");
     const navigate = useNavigate()
 
 
@@ -83,7 +86,7 @@ const SocketContextProvider = ({ children }: { children: React.ReactNode }) => {
         navigate("/game")
     }
 
-    return <SocketContext.Provider value={{ socket, rooms, handleRoomCreator, handleJoinRoom, playerOne, playerTwo, currentRoom }}>{children}</SocketContext.Provider>
+    return <SocketContext.Provider value={{ socket, rooms, handleRoomCreator, handleJoinRoom, playerOne, playerTwo, currentRoom,userName,setUserName }}>{children}</SocketContext.Provider>
 }
 
 export default SocketContextProvider;
