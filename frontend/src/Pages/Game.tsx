@@ -4,9 +4,13 @@ import MainGame from "../Components/Game/MainGame";
 import LogoBar from "../Components/Home/LogoBar";
 import { GameContext } from "../Context/GameContext";
 import Logo from "../Asset/2.png";
+import { useNavigate } from "react-router";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 const Game = () => {
   const [count, setCount] = useState<number>(0);
   const [time, setTime] = useState(0);
+
+  const navigate = useNavigate();
 
   const timer = () => {
     setInterval(() => {
@@ -45,7 +49,7 @@ const Game = () => {
         >
           {time >= 30 ? (
             <Box>
-              <Heading size={"2xl"} mb={"4rem"} textAlign={"center"}>
+              <Heading size={"2xl"} mb={"3rem"} textAlign={"center"}>
                 Game Ended
               </Heading>
               <Flex
@@ -54,7 +58,7 @@ const Game = () => {
                 align={"center"}
                 gap={10}
                 border={"1px solid orange"}
-                p={"3.5rem"}
+                p={"3rem 6.5rem"}
                 borderRadius={"0.5rem"}
                 box-shadow="rgba(0, 0, 0, 0.24) 0px 3px 8px"
               >
@@ -70,6 +74,18 @@ const Game = () => {
                   }}
                 >
                   Play Again
+                </Button>
+                <Button
+                  colorScheme="yellow"
+                  variant="solid"
+                  size={"lg"}
+                  onClick={() => {
+                    setTime(0);
+                    setCount(0);
+                    navigate("/level");
+                  }}
+                >
+                  Main Menu
                 </Button>
               </Flex>
             </Box>
@@ -89,9 +105,32 @@ const Game = () => {
                 <Text fontSize={"1.5rem"} fontWeight={500} my={"1.5rem"}>
                   Points : &nbsp; &nbsp; {count}
                 </Text>
-                <Text fontSize={"1.5rem"} fontWeight={500}>
+                <Text fontSize={"1.5rem"} fontWeight={500} mb={"1.5rem"}>
                   Time : &nbsp; &nbsp; {time}
                 </Text>
+                <Button
+                  colorScheme="teal"
+                  size={"lg"}
+                  variant="outline"
+                  onClick={() => {
+                    setCount(0);
+                    setTime(0);
+                  }}
+                >
+                  Reset
+                </Button> <br /> <br />
+                <Button
+                  leftIcon={<ArrowBackIcon />}
+                  colorScheme="teal"
+                  variant="outline"
+                  onClick={() => {
+                    setCount(0);
+                    setTime(0);
+                    navigate("/level")
+                  }}
+                >
+                  Back
+                </Button>
               </Box>
               <Box
                 position={"relative"}
