@@ -8,7 +8,7 @@ Some Glimps of Our Gaming Project :
 
 <h3>Fast Aim is a gaming Website that allows playing both Single Player and Multi-Player. This is a collaborative project; we completed this website in 3 days.</h3>
 
-# Deployed URL 👉 [Click here]()
+# Deployed URL 👉 [Click here](https://fast-aim-game.vercel.app/)
 
 ## Our Team Members
 
