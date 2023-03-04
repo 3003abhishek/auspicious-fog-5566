@@ -3,11 +3,15 @@ import React, { useContext, useState, useEffect } from "react";
 import MainGame from "../Components/Game/MainGame";
 import LogoBar from "../Components/Home/LogoBar";
 import { GameContext } from "../Context/GameContext";
+import {SocketContext} from "../Context/socket.context";
 import { flowSound, playSound } from "../Components/Sound";
 import Logo from "../Asset/2.png";
 import { useNavigate } from "react-router";
 import { ArrowBackIcon } from "@chakra-ui/icons";
+
 const Game = () => {
+
+  const {userName}:any=useContext(SocketContext);
   const [count, setCount] = useState<number>(0);
   const [time, setTime] = useState(0);
 
@@ -32,6 +36,9 @@ const Game = () => {
   }, []);
 
   return (
+
+  
+
     <>
       <Flex
         direction={{ lg: "column", md: "column", base: "column" }}
@@ -71,7 +78,7 @@ const Game = () => {
                 borderRadius={"0.5rem"}
                 box-shadow="rgba(0, 0, 0, 0.24) 0px 3px 8px"
               >
-                <Heading size={"xl"}>Player Name</Heading>
+                <Heading size={"xl"}>{userName}</Heading>
                 <Heading size={"xl"}>Score : {count}</Heading>
                 <Button
                   colorScheme="yellow"
@@ -107,7 +114,7 @@ const Game = () => {
                 p={"2rem"}
                 textAlign={"center"}
               >
-                <Heading size={"lg"}>Player Name</Heading>
+                <Heading size={"lg"}>{userName}</Heading>
                 <Text fontSize={"1.5rem"} fontWeight={500} my={"1.5rem"}>
                   Points : &nbsp; &nbsp; {count}
                 </Text>
@@ -157,6 +164,7 @@ const Game = () => {
         </Flex>
       </Flex>
     </>
+
   );
 };
 

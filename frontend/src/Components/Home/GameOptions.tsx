@@ -19,11 +19,14 @@ import {
   Switch,
 } from "@chakra-ui/react";
 import { GoMute, GoUnmute } from "react-icons/go";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { playSound } from "../../Components/Sound";
+import { playSound,errorSound } from "../../Components/Sound";
 
-import { errorSound } from "../../Components/Sound";
+
+import { SocketContext } from "../../Context/socket.context";
+
+
 type Props = {
   backgroundColor: string;
 };
@@ -36,6 +39,10 @@ const GameOptions = () => {
   let [player2, setPlayer2] = React.useState<string>("");
   let [play, setPlay] = React.useState<boolean>(true);
   let { isOpen, onOpen, onClose } = useDisclosure();
+ 
+  const {setUserName}:any=useContext(SocketContext);
+   console.log({player1});
+   console.log({setUserName});
   let navigate = useNavigate();
 
   const toast = useToast();
@@ -81,10 +88,11 @@ const GameOptions = () => {
       });
       isOpen = isOpen;
     } else {
-      navigate("/level");
+      setUserName(player1);
       onClose();
       setMode("select");
       playSound(play);
+      navigate("/level");
     }
   };
 
