@@ -11,7 +11,6 @@ import DisplayWinner from "../Components/DisplayWinner";
 import Loading from "../Components/Loading";
 
 const Game = () => {
-
   const { socket, userName, currentRoom }: any = useContext(SocketContext);
   const [count, setCount] = useState<number>(0);
   const [time, setTime] = useState(0);
