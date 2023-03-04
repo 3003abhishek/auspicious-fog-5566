@@ -3,6 +3,7 @@ import React, { useContext, useState, useEffect } from "react";
 import MainGame from "../Components/Game/MainGame";
 import LogoBar from "../Components/Home/LogoBar";
 import { GameContext } from "../Context/GameContext";
+import { flowSound, playSound } from "../Components/Sound";
 import Logo from "../Asset/2.png";
 import { useNavigate } from "react-router";
 import { ArrowBackIcon } from "@chakra-ui/icons";
@@ -18,8 +19,16 @@ const Game = () => {
     }, 1000);
   };
 
+  let handlePlayAgain = () => {
+    setTime(0);
+    setCount(0);
+    playSound(true);
+    flowSound(true);
+  };
+
   useEffect(() => {
     timer();
+    flowSound(true);
   }, []);
 
   return (
@@ -35,7 +44,7 @@ const Game = () => {
         <Image
           src={Logo}
           alt={"logo"}
-          w={{ lg: "5%", md: "72%", base: "25%" }}
+          w={{ lg: "5%", md: "15%", base: "25%" }}
         />
         <Flex
           direction={{ lg: "row", md: "column", base: "column" }}
@@ -68,10 +77,7 @@ const Game = () => {
                   colorScheme="yellow"
                   variant="solid"
                   size={"lg"}
-                  onClick={() => {
-                    setTime(0);
-                    setCount(0);
-                  }}
+                  onClick={handlePlayAgain}
                 >
                   Play Again
                 </Button>
