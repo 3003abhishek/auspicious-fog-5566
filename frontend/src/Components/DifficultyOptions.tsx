@@ -18,6 +18,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { playSound } from "../Components/Sound";
 type Props = {
   backgroundColor: string;
@@ -29,6 +30,7 @@ type Props_diff = {
 const DifficultyOptions = ({ onDifficultyChange }: Props_diff) => {
   let [difficulty, setDifficulty] = useState<string>("");
   let [play, setPlay] = React.useState<boolean>(true);
+  const navigate = useNavigate()
   const toast = useToast();
 
   let HandleDifficulty: React.MouseEventHandler<HTMLButtonElement> = (
@@ -43,6 +45,7 @@ const DifficultyOptions = ({ onDifficultyChange }: Props_diff) => {
       isClosable: true,
     });
     playSound(play);
+    navigate("/game")
   };
 
   return (
