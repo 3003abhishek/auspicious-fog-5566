@@ -1,7 +1,6 @@
 import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
-import React, { useContext, useState, useEffect, useRef } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import MainGame from "../Components/Game/MainGame";
-import LogoBar from "../Components/Home/LogoBar";
 import { SocketContext } from "../Context/socket.context";
 import { flowSound, playSound } from "../Components/Sound";
 import Logo from "../Asset/2.png";
@@ -15,9 +14,6 @@ const Game = () => {
   const [count, setCount] = useState<number>(0);
   const [time, setTime] = useState(0);
   const timreRef = useRef<number>();
-
-  console.log('time:', time)
-  console.log('currentRoom:', currentRoom)
 
   const navigate = useNavigate();
 
@@ -139,7 +135,7 @@ const Game = () => {
                 p={"2rem"}
                 textAlign={"center"}
               >
-                <Heading size={"lg"}>{userName}</Heading>
+                <Heading size={"lg"}>{currentRoom ? currentRoom.players[socket.id].userName : userName}</Heading>
                 <Text fontSize={"1.5rem"} fontWeight={500} my={"1.5rem"}>
                   Points : &nbsp; &nbsp; {count}
                 </Text>

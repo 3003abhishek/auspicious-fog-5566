@@ -41,7 +41,7 @@ const SocketContextProvider = ({ children }: { children: React.ReactNode }) => {
 
 
     useEffect(() => {
-        const socket = io("http://localhost:3000");
+        const socket = io(import.meta.env.VITE_APP_BACKEND_URL);
         setSocket(socket);
 
         socket.on("room:created", (msg, room) => {
