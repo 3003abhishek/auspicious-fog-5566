@@ -1,9 +1,8 @@
 import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import MainGame from "../Components/Game/MainGame";
 import LogoBar from "../Components/Home/LogoBar";
-import { GameContext } from "../Context/GameContext";
-import {SocketContext} from "../Context/socket.context";
+import { SocketContext } from "../Context/socket.context";
 import { flowSound, playSound } from "../Components/Sound";
 import Logo from "../Asset/2.png";
 import { useNavigate } from "react-router";
@@ -11,14 +10,21 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 
 const Game = () => {
 
-  const {userName}:any=useContext(SocketContext);
+  const { socket, userName, currentRoom }: any = useContext(SocketContext);
   const [count, setCount] = useState<number>(0);
   const [time, setTime] = useState(0);
+  const timreRef = useRef<number>();
+
+  console.log('time:', time)
+  console.log('currentRoom:', currentRoom)
 
   const navigate = useNavigate();
 
   const timer = () => {
-    setInterval(() => {
+    if (timreRef.current) {
+      clearInterval(timreRef.current)
+    }
+    timreRef.current = setInterval(() => {
       setTime((prev) => prev + 1);
     }, 1000);
   };
@@ -28,16 +34,26 @@ const Game = () => {
     setCount(0);
     playSound(true);
     flowSound(true);
+    if (currentRoom) {
+      socket.emit("restart:game", currentRoom)
+    }
   };
 
+  if (time == 31) {
+    currentRoom.players[socket.id].score = count;
+    socket.emit("update:room", currentRoom)
+  }
+
+  if (time == 32) {
+    clearInterval(timreRef.current)
+  }
+
   useEffect(() => {
-    timer();
+    if (currentRoom?.gameStart) timer();
     flowSound(true);
-  }, []);
+  }, [currentRoom?.gameStart]);
 
-  return (
-
-  
+  return (currentRoom !== undefined && !currentRoom?.gameStart) ? <h1>Loading...</h1> : (
 
     <>
       <Flex
@@ -95,7 +111,8 @@ const Game = () => {
                   onClick={() => {
                     setTime(0);
                     setCount(0);
-                    navigate("/level");
+                    if (currentRoom) socket.emit("delete:room", currentRoom)
+                    navigate("/");
                   }}
                 >
                   Main Menu
@@ -121,18 +138,21 @@ const Game = () => {
                 <Text fontSize={"1.5rem"} fontWeight={500} mb={"1.5rem"}>
                   Time : &nbsp; &nbsp; {time}
                 </Text>
-                <Button
-                  my={"1rem"}
-                  colorScheme="teal"
-                  size={"lg"}
-                  variant="outline"
-                  onClick={() => {
-                    setCount(0);
-                    setTime(0);
-                  }}
-                >
-                  Reset
-                </Button> <br /> <br />
+                {
+                  currentRoom ? <></> :
+                    <Button
+                      my={"1rem"}
+                      colorScheme="teal"
+                      size={"lg"}
+                      variant="outline"
+                      onClick={() => {
+                        setCount(0);
+                        setTime(0);
+                      }}
+                    >
+                      Reset
+                    </Button>
+                } <br /> <br />
                 <Button
                   leftIcon={<ArrowBackIcon />}
                   colorScheme="teal"

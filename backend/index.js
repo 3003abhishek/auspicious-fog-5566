@@ -15,6 +15,7 @@ io.on("connection", socket => {
             const room = {
                 room_name: roomName,
                 vacant: true,
+                gameStart: false,
                 players: {
                     [socket.id]: {
                         score: 0,
@@ -28,7 +29,7 @@ io.on("connection", socket => {
             io.to(roomName).emit("room:created", roomName + " created", room);
             io.emit("get:rooms", rooms)
         } else {
-            io.to(roomName).emit("room:created", roomName + " already exist");
+            io.to(socket.id).emit("room:created", roomName + " already exist", {});
         }
     })
 
@@ -41,6 +42,7 @@ io.on("connection", socket => {
                 userName
             }
             room.vacant = false;
+            room.gameStart = true;
             socket.join(roomName);
             io.to(roomName).emit("room:joined", `${userName} joining the room ${roomName}`, existing_room_with_same_name[0])
             io.emit("get:rooms", rooms)
@@ -59,12 +61,44 @@ io.on("connection", socket => {
             rooms[index] = currentRoom;
             io.to(currentRoom.room_name).emit("room:updated", rooms[index]);
         } else {
-            io.to(currentRoom.room_name).emit("room:updated", [])
+            io.to(currentRoom.room_name).emit("room:updated", {})
         }
     })
 
-    // socket.on("delete:room", (room) => {
 
-    // })
+    socket.on("restart:game", (currentRoom) => {
+        const index = rooms.findIndex((room) => room.room_name === currentRoom.room_name);
+        if (index >= 0) {
+            rooms[index].players[socket.id].score = 0;
+            let player1 = rooms[index].players[Object.keys(rooms[index].players)[0]];
+            let player2 = rooms[index].players[Object.keys(rooms[index].players)[1]];
+            if (player1.score == 0 && player2.score == 0) {
+                rooms[index].gameStart = false;
+                io.to(socket.id).emit("room:restarted", rooms[index]);
+                rooms[index].gameStart = true;
+                io.to(currentRoom.room_name).emit("room:restarted", rooms[index]);
+            } else {
+                rooms[index].gameStart = false;
+                io.to(socket.id).emit("room:restarted", rooms[index]);
+            }
+        } else {
+            io.to(rooms[index].room_name).emit("room:restarted", {});
+        }
+    })
+
+
+    socket.on("delete:room", (currentRoom) => {
+        const index = rooms.findIndex((room) => room.room_name === currentRoom.room_name);
+        if (index >= 0) {
+            let player1 = rooms[index].players[Object.keys(rooms[index].players)[0]];
+            let player2 = rooms[index].players[Object.keys(rooms[index].players)[1]];
+            rooms.splice(index, 1);
+            io.to(currentRoom.room_name).emit("room:deleted", `Room ${currentRoom.room_name} deleted.`);
+            socket.leave(currentRoom.room_name);
+        } else {
+            io.to(socket.id).emit("room:deleted", "Room doesn't exist.");
+        }
+    })
 
 })
+
