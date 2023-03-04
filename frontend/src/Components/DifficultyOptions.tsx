@@ -18,56 +18,32 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { playSound } from "../Components/Sound";
 type Props = {
   backgroundColor: string;
 };
 
 type Props_diff = {
-  onDifficultyChange: (propValue: String) => void;
+  onDifficultyChange: (propValue: string) => void;
 };
 const DifficultyOptions = ({ onDifficultyChange }: Props_diff) => {
   let [difficulty, setDifficulty] = useState<string>("");
-
+  let [play, setPlay] = React.useState<boolean>(true);
   const toast = useToast();
 
   let HandleDifficulty: React.MouseEventHandler<HTMLButtonElement> = (
     event
   ) => {
     onDifficultyChange(event.currentTarget.innerText);
+    toast({
+      title: `Difficulty level has been set to ${event.currentTarget.innerText}`,
+      position: "top-right",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+    playSound(play);
   };
-
-  //   let handleAdd = () => {
-  //     if (mode === "select") {
-  //       toast({
-  //         title: "Select Category and Players",
-
-  //         status: "info",
-  //         duration: 3000,
-  //         isClosable: true,
-  //       });
-  //       isOpen = isOpen;
-  //     } else if (mode === "single" && !player1) {
-  //       toast({
-  //         title: "Select Player1",
-
-  //         status: "info",
-  //         duration: 3000,
-  //         isClosable: true,
-  //       });
-  //       isOpen = isOpen;
-  //     } else if (mode === "multi" && !player1 && !player2) {
-  //       toast({
-  //         title: "Select Player1 and player2",
-
-  //         status: "info",
-  //         duration: 3000,
-  //         isClosable: true,
-  //       });
-  //       isOpen = isOpen;
-  //     }
-  //     onClose();
-  //     setMode("select");
-  //   };
 
   return (
     <Box
@@ -75,7 +51,7 @@ const DifficultyOptions = ({ onDifficultyChange }: Props_diff) => {
       textAlign={"center"}
       p={"3rem"}
       m={"0.5rem auto 2.7rem auto"}
-      border={"0.5px solid orange"}
+      border={"1px solid orange"}
       borderRadius="0.5rem"
       boxShadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px"
     >

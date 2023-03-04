@@ -8,8 +8,8 @@ import { Flex } from "@chakra-ui/react";
 import LogoBar from "../Components/Home/LogoBar";
 import GameOptions from "../Components/Home/GameOptions";
 
-const Difficulty = () => {
-  const [difficultyValue, setdifficultyValue] = useState("");
+let Difficulty = () => {
+  let [difficultyValue, setdifficultyValue] = useState<string>("");
   let handleDifficulty = (propValue: string): void => {
     setdifficultyValue(propValue);
   };
