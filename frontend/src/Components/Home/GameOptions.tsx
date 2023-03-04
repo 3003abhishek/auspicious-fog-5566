@@ -35,7 +35,7 @@ const GameOptions = () => {
   let [player1, setPlayer1] = React.useState<string>("");
   let [player2, setPlayer2] = React.useState<string>("");
   let [play, setPlay] = React.useState<boolean>(true);
-  let { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   let navigate = useNavigate();
 
   const toast = useToast();
@@ -53,7 +53,7 @@ const GameOptions = () => {
     if (mode === "select") {
       errorSound(play);
       toast({
-        title: "Select Category and Players",
+        title: "Select Mode and Players",
         position: "top-right",
         status: "info",
         duration: 3000,
@@ -63,7 +63,7 @@ const GameOptions = () => {
     } else if (mode === "single" && !player1) {
       errorSound(play);
       toast({
-        title: "Select Player1",
+        title: "Select Player",
         position: "top-right",
         status: "info",
         duration: 3000,
