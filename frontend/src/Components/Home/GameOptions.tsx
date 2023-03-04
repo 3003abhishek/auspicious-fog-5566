@@ -19,9 +19,9 @@ import {
   Switch,
 } from "@chakra-ui/react";
 import { GoMute, GoUnmute } from "react-icons/go";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { playSound,errorSound } from "../../Components/Sound";
+import { playSound, errorSound } from "../../Components/Sound";
 
 
 import { SocketContext } from "../../Context/socket.context";
@@ -31,6 +31,11 @@ type Props = {
   backgroundColor: string;
 };
 const GameOptions = () => {
+  const userNameRef = useRef<HTMLInputElement>(null);
+  const roomNameRef = useRef<HTMLInputElement>(null);
+  const optionRef = useRef<HTMLSelectElement>(null);
+  const roomsRef = useRef<HTMLSelectElement>(null);
+  const [showOptions, setShowOptions] = useState<boolean>(true);
   let [player, setPlayer] = React.useState<string>("");
   let [mode, setMode] = React.useState<string>("");
   let [single, setSingle] = React.useState<string>("");
@@ -39,10 +44,9 @@ const GameOptions = () => {
   let [player2, setPlayer2] = React.useState<string>("");
   let [play, setPlay] = React.useState<boolean>(true);
   let { isOpen, onOpen, onClose } = useDisclosure();
- 
-  const {setUserName}:any=useContext(SocketContext);
-   console.log({player1});
-   console.log({setUserName});
+  const { setUserName, socket, rooms, handleRoomCreator, handleJoinRoom }: any =
+    useContext(SocketContext);
+
   let navigate = useNavigate();
 
   const toast = useToast();
@@ -166,7 +170,7 @@ const GameOptions = () => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalCloseButton />
+          <ModalCloseButton onClick={onClose} />
           <ModalBody>
             <VStack spacing={5}>
               <FormControl>
@@ -189,37 +193,79 @@ const GameOptions = () => {
                   </Box>
                 ) : mode === "multi" ? (
                   <Box>
-                    <FormLabel mt={6}>Player1 Name</FormLabel>
-                    <Input
-                      type="text"
-                      placeholder="Add Playername..."
-                      value={player1}
-                      onChange={(e) => setPlayer1(e.target.value)}
-                      mt={3}
-                    />
-
-                    <FormLabel mt={6}>Player2 Name</FormLabel>
-                    <Input
-                      type="text"
-                      placeholder="Add Playername..."
-                      value={player2}
-                      onChange={(e) => setPlayer2(e.target.value)}
-                      mt={3}
-                    />
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        if (optionRef.current!.value == "") return;
+                        optionRef.current!.value == "join"
+                          ? handleJoinRoom(userNameRef.current!.value, roomsRef.current!.value)
+                          : handleRoomCreator(
+                            userNameRef.current!.value,
+                            roomNameRef.current!.value
+                          );
+                      }}
+                    >
+                      <Select
+                        style={{ margin: "10px 0px" }}
+                        ref={optionRef}
+                        placeholder="Choose option"
+                        onChange={(e) => {
+                          if (e.target.value !== "") {
+                            setShowOptions(e.target.value == "create" ? true : false);
+                            if (e.target.value == "join") {
+                              socket.emit("send:rooms");
+                            }
+                          }
+                        }}
+                      >
+                        <option value="create">Create Room</option>
+                        <option value="join">Join Room</option>
+                      </Select>
+                      <Input
+                        style={{ margin: "10px 0px" }}
+                        ref={userNameRef}
+                        required
+                        placeholder="Enter your name to create room"
+                      />
+                      {showOptions ? (
+                        <Input
+                          style={{ margin: "10px 0px" }}
+                          ref={roomNameRef}
+                          required
+                          placeholder="Enter room name to create"
+                        />
+                      ) : (
+                        <Select style={{ margin: "10px 0px" }} placeholder="Choose Room" ref={roomsRef}>
+                          {rooms.map((room: any, i: number) => (
+                            <option key={i} value={room.room_name} disabled={!room.vacant}>
+                              {room.room_name}
+                            </option>
+                          ))}
+                        </Select>
+                      )}
+                      <Input
+                        style={{ margin: "10px 0px" }}
+                        type={"submit"}
+                        value={!showOptions ? "Join room" : "Create room"}
+                      />
+                    </form>
                   </Box>
                 ) : mode === "select" ? null : null}
               </FormControl>
             </VStack>
           </ModalBody>
           <ModalFooter>
-            <Button
-              colorScheme="yellow"
-              variant="solid"
-              mr={3}
-              onClick={handleAdd}
-            >
-              ADD
-            </Button>
+            {mode === "multi" ?
+              <></> :
+              <Button
+                colorScheme="yellow"
+                variant="solid"
+                mr={3}
+                onClick={handleAdd}
+              >
+                ADD
+              </Button>
+            }
             <Button
               onClick={onClose}
               backgroundColor={"white"}
