@@ -30,7 +30,7 @@ type Props_diff = {
 const DifficultyOptions = ({ onDifficultyChange }: Props_diff) => {
   let [difficulty, setDifficulty] = useState<string>("");
   let [play, setPlay] = React.useState<boolean>(true);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const toast = useToast();
 
   let HandleDifficulty: React.MouseEventHandler<HTMLButtonElement> = (
@@ -45,7 +45,7 @@ const DifficultyOptions = ({ onDifficultyChange }: Props_diff) => {
       isClosable: true,
     });
     playSound(play);
-    navigate("/game")
+    navigate(`/game/${event.currentTarget.innerText}`);
   };
 
   return (

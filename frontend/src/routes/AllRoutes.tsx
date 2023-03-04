@@ -8,7 +8,7 @@ const AllRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/game" element={<Game />} />
+      <Route path="/game/:condition" element={<Game />} />
       <Route path="/level" element={<Difficulty />} />
     </Routes>
   );
