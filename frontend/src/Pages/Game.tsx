@@ -2,16 +2,15 @@ import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import React, { useContext, useState, useEffect } from "react";
 import MainGame from "../Components/Game/MainGame";
 import LogoBar from "../Components/Home/LogoBar";
-import { GameContext } from "../Context/GameContext";
-import {SocketContext} from "../Context/socket.context";
+
+import { SocketContext } from "../Context/socket.context";
 import { flowSound, playSound } from "../Components/Sound";
 import Logo from "../Asset/2.png";
 import { useNavigate } from "react-router";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 
 const Game = () => {
-
-  const {userName}:any=useContext(SocketContext);
+  const { userName }: any = useContext(SocketContext);
   const [count, setCount] = useState<number>(0);
   const [time, setTime] = useState(0);
 
@@ -36,9 +35,6 @@ const Game = () => {
   }, []);
 
   return (
-
-  
-
     <>
       <Flex
         direction={{ lg: "column", md: "column", base: "column" }}
@@ -52,6 +48,7 @@ const Game = () => {
           src={Logo}
           alt={"logo"}
           w={{ lg: "5%", md: "15%", base: "25%" }}
+          onClick={() => navigate("/")}
         />
         <Flex
           direction={{ lg: "row", md: "column", base: "column" }}
@@ -96,6 +93,7 @@ const Game = () => {
                     setTime(0);
                     setCount(0);
                     navigate("/level");
+                    playSound(true);
                   }}
                 >
                   Main Menu
@@ -132,7 +130,8 @@ const Game = () => {
                   }}
                 >
                   Reset
-                </Button> <br /> <br />
+                </Button>{" "}
+                <br /> <br />
                 <Button
                   leftIcon={<ArrowBackIcon />}
                   colorScheme="teal"
@@ -140,7 +139,7 @@ const Game = () => {
                   onClick={() => {
                     setCount(0);
                     setTime(0);
-                    navigate("/level")
+                    navigate("/level");
                   }}
                 >
                   Back
@@ -164,7 +163,6 @@ const Game = () => {
         </Flex>
       </Flex>
     </>
-
   );
 };
 
