@@ -9,6 +9,7 @@ import LogoBar from "../Components/Home/LogoBar";
 import GameOptions from "../Components/Home/GameOptions";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
+import DisplayWinner from "../Components/DisplayWinner";
 
 let Difficulty = () => {
   let [difficultyValue, setdifficultyValue] = useState<string>("");
@@ -56,6 +57,7 @@ let Difficulty = () => {
       </Box>
       <Box>
         <DifficultyOptions onDifficultyChange={handleDifficulty} />
+        {/* <DisplayWinner/> */}
       </Box>
       {/* <Players onPropChange={handlePlayer} /> */}
     </Flex>
