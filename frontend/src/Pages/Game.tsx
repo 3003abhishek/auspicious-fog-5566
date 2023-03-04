@@ -68,6 +68,7 @@ const Game = () => {
           src={Logo}
           alt={"logo"}
           w={{ lg: "5%", md: "15%", base: "25%" }}
+          onClick={() => navigate("/")}
         />
         <Flex
           direction={{ lg: "row", md: "column", base: "column" }}
@@ -113,6 +114,7 @@ const Game = () => {
                     setCount(0);
                     if (currentRoom) socket.emit("delete:room", currentRoom)
                     navigate("/");
+                    playSound(true);
                   }}
                 >
                   Main Menu
@@ -160,12 +162,12 @@ const Game = () => {
                   onClick={() => {
                     setCount(0);
                     setTime(0);
-                    navigate("/level")
+                    navigate("/level");
                   }}
                 >
                   Back
                 </Button>
-              </Box>
+              </Box >
               <Box
                 position={"relative"}
                 w={{ lg: "72%", md: "72%", base: "72%" }}
@@ -181,10 +183,9 @@ const Game = () => {
               </Box>
             </>
           )}
-        </Flex>
-      </Flex>
+        </Flex >
+      </Flex >
     </>
-
   );
 };
 
