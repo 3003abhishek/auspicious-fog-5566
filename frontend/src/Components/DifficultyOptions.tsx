@@ -53,7 +53,7 @@ const DifficultyOptions = ({ onDifficultyChange }: Props_diff) => {
       w={{ lg: "25%", md: "30%", base: "75%" }}
       textAlign={"center"}
       p={"3rem"}
-      m={"0.5rem auto 2.7rem auto"}
+      m={"0.5rem auto 2.4rem auto"}
       border={"1px solid orange"}
       borderRadius="0.5rem"
       boxShadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px"
