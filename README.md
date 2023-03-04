@@ -4,7 +4,7 @@
 
 Some Glimps of Our Gaming Project :
 
-# Welcome to WEFIT
+# Welcome to FASTAIM
 
 <h3>Fast Aim is a gaming Website that allows playing both Single Player and Multi-Player. This is a collaborative project; we completed this website in 3 days.</h3>
 
