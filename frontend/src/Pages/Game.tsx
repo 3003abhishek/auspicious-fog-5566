@@ -7,6 +7,8 @@ import { flowSound, playSound } from "../Components/Sound";
 import Logo from "../Asset/2.png";
 import { useNavigate } from "react-router";
 import { ArrowBackIcon } from "@chakra-ui/icons";
+import DisplayWinner from "../Components/DisplayWinner";
+import Loading from "../Components/Loading";
 
 const Game = () => {
   const { socket, userName, currentRoom }: any = useContext(SocketContext);
@@ -38,7 +40,7 @@ const Game = () => {
     }
   };
 
-  if (time == 31) {
+  if (time == 31 && currentRoom) {
     currentRoom.players[socket.id].score = count;
     socket.emit("update:room", currentRoom)
   }
@@ -48,11 +50,11 @@ const Game = () => {
   }
 
   useEffect(() => {
-    if (currentRoom?.gameStart) timer();
+    if (!currentRoom || currentRoom?.gameStart) timer();
     flowSound(true);
   }, [currentRoom?.gameStart]);
 
-  return (currentRoom !== undefined && !currentRoom?.gameStart) ? <h1>Loading...</h1> : (
+  return (currentRoom !== undefined && !currentRoom?.gameStart) ? <Loading /> : (
 
     <>
       <Flex
@@ -94,8 +96,13 @@ const Game = () => {
                 borderRadius={"0.5rem"}
                 box-shadow="rgba(0, 0, 0, 0.24) 0px 3px 8px"
               >
-                <Heading size={"xl"}>{userName}</Heading>
-                <Heading size={"xl"}>Score : {count}</Heading>
+                {
+                  currentRoom ? <DisplayWinner /> :
+                    <>
+                      <Heading size={"xl"}>{userName}</Heading>
+                      <Heading size={"xl"}>Score : {count}</Heading>
+                    </>
+                }
                 <Button
                   colorScheme="yellow"
                   variant="solid"
@@ -166,7 +173,7 @@ const Game = () => {
                 >
                   Back
                 </Button>
-              </Box>
+              </Box >
               <Box
                 position={"relative"}
                 w={{ lg: "72%", md: "72%", base: "72%" }}
@@ -182,8 +189,8 @@ const Game = () => {
               </Box>
             </>
           )}
-        </Flex>
-      </Flex>
+        </Flex >
+      </Flex >
     </>
   );
 };
