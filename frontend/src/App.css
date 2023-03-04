@@ -1,5 +1,21 @@
 .App {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game {
+  animation: blinker 3s linear infinite;
+}
+
+@keyframes blinker {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
 }

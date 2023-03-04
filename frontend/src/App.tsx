@@ -1,19 +1,11 @@
-
-
 import { Box } from "@chakra-ui/react";
 import "./App.css";
-import Home from "./Pages/Home";
-import Check from "./Pages/Check";
-import { Routes, Route } from 'react-router-dom'
-import Game from "./Pages/Game";
-
+import AllRoutes from "./routes/AllRoutes";
 
 function App() {
   return (
     <Box className="App">
-
-      
-
+      <AllRoutes />
     </Box>
   );
 }

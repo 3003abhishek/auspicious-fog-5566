@@ -16,8 +16,14 @@ import {
   Flex,
   VStack,
   useToast,
+  Switch,
 } from "@chakra-ui/react";
+import { GoMute, GoUnmute } from "react-icons/go";
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { playSound } from "../../Components/Sound";
+
+import { errorSound } from "../../Components/Sound";
 type Props = {
   backgroundColor: string;
 };
@@ -28,44 +34,71 @@ const GameOptions = () => {
   let [multi, setMulti] = React.useState<string>("");
   let [player1, setPlayer1] = React.useState<string>("");
   let [player2, setPlayer2] = React.useState<string>("");
+  let [play, setPlay] = React.useState<boolean>(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  let navigate = useNavigate();
+
   const toast = useToast();
+
+  let handleNewGame = () => {
+    onOpen();
+    playSound(play);
+  };
+
+  let handleScoreboard = () => {
+    playSound(play);
+  };
+  console.log(play);
   let handleAdd = () => {
     if (mode === "select") {
+      errorSound(play);
       toast({
-        title: "Select Category and Players",
-
+        title: "Select Mode and Players",
+        position: "top-right",
         status: "info",
         duration: 3000,
         isClosable: true,
       });
       isOpen = isOpen;
     } else if (mode === "single" && !player1) {
+      errorSound(play);
       toast({
-        title: "Select Player1",
-
+        title: "Select Player",
+        position: "top-right",
         status: "info",
         duration: 3000,
         isClosable: true,
       });
       isOpen = isOpen;
-    } else if (mode === "multi" && !player1 && !player2) {
+    } else if (mode === "multi" && (!player1 || !player2)) {
+      errorSound(play);
       toast({
         title: "Select Player1 and player2",
-
+        position: "top-right",
         status: "info",
         duration: 3000,
         isClosable: true,
       });
       isOpen = isOpen;
     }
+    navigate("/level");
     onClose();
     setMode("select");
+    playSound(play);
   };
 
-  console.log(mode);
-  console.log(player1);
-  console.log(player2);
+  let handleSound = () => {
+    setPlay(!play);
+    playSound(play);
+  };
+
+  useEffect(() => {
+    setMode("select");
+  }, []);
+
+  // console.log(mode);
+  // console.log(player1);
+  // console.log(player2);
   return (
     <Box
       w={{ lg: "25%", md: "30%", base: "75%" }}
@@ -82,25 +115,46 @@ const GameOptions = () => {
           variant="solid"
           mb={"2rem"}
           size={{ lg: "lg", md: "md", base: "md" }}
-          onClick={onOpen}
+          onClick={handleNewGame}
         >
           New Game
         </Button>
         <Button
           colorScheme="yellow"
           variant="solid"
+          mb={"2rem"}
           size={{ lg: "lg", md: "md", base: "md" }}
+          onClick={handleScoreboard}
         >
           Score Board
         </Button>
+        {play ? (
+          <Button
+            rightIcon={<GoUnmute />}
+            colorScheme="yellow"
+            variant="solid"
+            size={{ lg: "lg", md: "md", base: "md" }}
+            bgColor={"green.400"}
+            _hover={{ bgColor: "green.400" }}
+            onClick={handleSound}
+          >
+            Sound
+          </Button>
+        ) : (
+          <Button
+            rightIcon={<GoMute />}
+            colorScheme="yellow"
+            bgColor={"#ecc94b"}
+            _hover={{ bgColor: "#ecc94b" }}
+            variant="solid"
+            size={{ lg: "lg", md: "md", base: "md" }}
+            onClick={handleSound}
+          >
+            Sound
+          </Button>
+        )}
       </Flex>
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-
-        // backgroundColor:string="rgb(131,58,180)"
-        // background="linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)"
-      >
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />
