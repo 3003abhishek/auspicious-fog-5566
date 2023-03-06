@@ -185,7 +185,7 @@ const Game = () => {
                 border={"1px dotted red"}
                 p={"1rem"}
               >
-                <MainGame count={count} setCount={setCount} BoxHeight={gameBoxRef.current?.clientHeight || 500} BoxWidth={gameBoxRef.current?.clientWidth || 360} />
+                <MainGame count={count} setCount={setCount} BoxHeight={(gameBoxRef.current?.clientHeight || 500) - 40} BoxWidth={(gameBoxRef.current?.clientWidth || 360) - 40} />
               </Box>
             </>
           )}
