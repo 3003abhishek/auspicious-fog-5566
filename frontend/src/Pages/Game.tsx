@@ -142,7 +142,7 @@ const Game = () => {
                   Points : &nbsp; &nbsp; {count}
                 </Text>
                 <Text fontSize={"1.5rem"} fontWeight={500} mb={"1.5rem"}>
-                  Time : &nbsp; &nbsp; {time}
+                  Time : &nbsp; &nbsp; {30 - time}
                 </Text>
                 {
                   currentRoom ? <></> :
