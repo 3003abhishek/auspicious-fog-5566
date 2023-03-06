@@ -8,13 +8,6 @@ import LogoBar from "../Components/Home/LogoBar";
 import GameOptions from "../Components/Home/GameOptions";
 
 const Home = () => {
-  const [player, setPlayer] = useState("");
-  let handlePlayer = (propValue: string): void => {
-    setPlayer(propValue);
-  };
-
-  console.log(player);
-
   return (
     <Flex
       w={"100%"}
@@ -27,7 +20,6 @@ const Home = () => {
     >
       <LogoBar />
       <GameOptions />
-      {/* <Players onPropChange={handlePlayer} /> */}
     </Flex>
   );
 };

@@ -10,10 +10,11 @@ import DisplayWinner from "../Components/DisplayWinner";
 import Loading from "../Components/Loading";
 
 const Game = () => {
-  const { socket, userName, currentRoom }: any = useContext(SocketContext);
+  const { socket, userName, currentRoom, play }: any = useContext(SocketContext);
   const [count, setCount] = useState<number>(0);
   const [time, setTime] = useState(0);
   const timreRef = useRef<number>();
+  const gameBoxRef = useRef<HTMLDivElement>(null);
 
   const navigate = useNavigate();
 
@@ -29,8 +30,8 @@ const Game = () => {
   let handlePlayAgain = () => {
     setTime(0);
     setCount(0);
-    playSound(true);
-    flowSound(true);
+    playSound(play);
+    flowSound(play);
     if (currentRoom) {
       socket.emit("restart:game", currentRoom)
     }
@@ -47,7 +48,7 @@ const Game = () => {
 
   useEffect(() => {
     if (!currentRoom || currentRoom?.gameStart) timer();
-    flowSound(true);
+    flowSound(play);
   }, [currentRoom?.gameStart]);
 
   return (currentRoom !== undefined && !currentRoom?.gameStart) ? <Loading /> : (
@@ -83,12 +84,13 @@ const Game = () => {
                 Game Ended
               </Heading>
               <Flex
+                w={"100%"}
                 direction={"column"}
                 justify={"center"}
                 align={"center"}
                 gap={10}
                 border={"1px solid orange"}
-                p={"3rem 6.5rem"}
+                p={{ md: "3rem 6.5rem", base: "1rem" }}
                 borderRadius={"0.5rem"}
                 box-shadow="rgba(0, 0, 0, 0.24) 0px 3px 8px"
               >
@@ -116,7 +118,7 @@ const Game = () => {
                     setCount(0);
                     if (currentRoom) socket.emit("delete:room", currentRoom)
                     navigate("/");
-                    playSound(true);
+                    playSound(play);
                   }}
                 >
                   Main Menu
@@ -165,12 +167,14 @@ const Game = () => {
                     setCount(0);
                     setTime(0);
                     navigate("/level");
+                    flowSound(false)
                   }}
                 >
                   Back
                 </Button>
               </Box >
               <Box
+                ref={gameBoxRef}
                 position={"relative"}
                 w={{ lg: "72%", md: "72%", base: "72%" }}
                 bg={"black"}
@@ -181,7 +185,7 @@ const Game = () => {
                 border={"1px dotted red"}
                 p={"1rem"}
               >
-                <MainGame count={count} setCount={setCount} />
+                <MainGame count={count} setCount={setCount} BoxHeight={gameBoxRef.current?.clientHeight || 500} BoxWidth={gameBoxRef.current?.clientWidth || 360} />
               </Box>
             </>
           )}

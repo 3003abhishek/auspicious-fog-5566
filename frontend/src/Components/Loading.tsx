@@ -10,6 +10,7 @@ const Loading = () => {
                 <span></span>
                 <span></span>
             </div>
+            <h1>Waiting for other player to join the room...</h1>
         </div>
     )
 }

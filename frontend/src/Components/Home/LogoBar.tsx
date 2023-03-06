@@ -1,11 +1,6 @@
-import React from "react";
 import { Box, Flex, Image } from "@chakra-ui/react";
 import Logo from "../../Asset/2.png";
 import { useNavigate } from "react-router-dom";
-
-// type LogoBarProps = {
-//   width: string;
-// };
 
 const LogoBar = () => {
   const navigate = useNavigate();

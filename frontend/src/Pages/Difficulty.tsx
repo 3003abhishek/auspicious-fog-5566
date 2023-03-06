@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Box, Button, Heading, Text, Tooltip } from "@chakra-ui/react";
 import Players from "../Components/Home/player";
 import DifficultyOptions from "../Components/DifficultyOptions";
@@ -11,16 +11,17 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import DisplayWinner from "../Components/DisplayWinner";
 import { flowSound, playSound } from "../Components/Sound";
+import { SocketContext } from "../Context/socket.context";
 let Difficulty = () => {
+  const { play }: any = useContext(SocketContext)
   let [difficultyValue, setdifficultyValue] = useState<string>("");
   let handleDifficulty = (propValue: string): void => {
     setdifficultyValue(propValue);
   };
   let navigate = useNavigate();
-  console.log(difficultyValue);
   let handleBack = () => {
     navigate("/");
-    playSound(true);
+    playSound(play);
   };
   return (
     <Flex
