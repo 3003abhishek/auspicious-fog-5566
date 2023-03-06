@@ -74,8 +74,10 @@ io.on("connection", socket => {
             if (player1.score == 0 && player2.score == 0) {
                 rooms[index].gameStart = false;
                 io.to(socket.id).emit("room:restarted", rooms[index]);
-                rooms[index].gameStart = true;
-                io.to(currentRoom.room_name).emit("room:restarted", rooms[index]);
+                setTimeout(() => {
+                    rooms[index].gameStart = true;
+                    io.to(currentRoom.room_name).emit("room:restarted", rooms[index]);
+                }, 500)
             } else {
                 rooms[index].gameStart = false;
                 io.to(socket.id).emit("room:restarted", rooms[index]);

@@ -1,11 +1,6 @@
-import React from "react";
-import { Box } from "@chakra-ui/react";
-import Players from "../Components/Home/player";
-import { useState } from "react";
-
-import { Flex } from "@chakra-ui/react";
-import LogoBar from "../Components/Home/LogoBar";
 import GameOptions from "../Components/Home/GameOptions";
+import LogoBar from "../Components/Home/LogoBar";
+import { Flex } from "@chakra-ui/react";
 
 const Home = () => {
   return (

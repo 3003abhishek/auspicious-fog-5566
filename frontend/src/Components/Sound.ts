@@ -1,5 +1,5 @@
-import clickSound from "../Asset/sound/click.mp3";
 import flowtune from "../Asset/sound/flowmusic.mp3";
+import clickSound from "../Asset/sound/click.mp3";
 import error from "../Asset/sound/error.mp3";
 
 export let flowSound = (condition: boolean) => {

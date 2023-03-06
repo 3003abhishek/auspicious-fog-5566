@@ -1,17 +1,18 @@
 import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import { useContext, useState, useEffect, useRef } from "react";
-import MainGame from "../Components/Game/MainGame";
-import { SocketContext } from "../Context/socket.context";
 import { flowSound, playSound } from "../Components/Sound";
-import Logo from "../Asset/2.png";
-import { useNavigate } from "react-router";
-import { ArrowBackIcon } from "@chakra-ui/icons";
+import { SocketContext } from "../Context/socket.context";
 import DisplayWinner from "../Components/DisplayWinner";
+import MainGame from "../Components/Game/MainGame";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 import Loading from "../Components/Loading";
+import { useNavigate } from "react-router";
+import Logo from "../Asset/2.png";
 
 const Game = () => {
   const { socket, userName, currentRoom, play }: any = useContext(SocketContext);
   const [count, setCount] = useState<number>(0);
+  const [playAgain, setPlayAgain] = useState<boolean>(false);
   const [time, setTime] = useState(0);
   const timreRef = useRef<number>();
   const gameBoxRef = useRef<HTMLDivElement>(null);
@@ -34,6 +35,8 @@ const Game = () => {
     flowSound(play);
     if (currentRoom) {
       socket.emit("restart:game", currentRoom)
+    } else {
+      setPlayAgain(!playAgain);
     }
   };
 
@@ -49,7 +52,7 @@ const Game = () => {
   useEffect(() => {
     if (!currentRoom || currentRoom?.gameStart) timer();
     flowSound(play);
-  }, [currentRoom?.gameStart]);
+  }, [currentRoom?.gameStart, playAgain]);
 
   return (currentRoom !== undefined && !currentRoom?.gameStart) ? <Loading /> : (
 

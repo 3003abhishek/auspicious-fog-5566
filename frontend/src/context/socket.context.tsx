@@ -1,7 +1,7 @@
-import { createContext, useEffect, useState } from "react";
-import { io } from "socket.io-client";
-import { useNavigate } from 'react-router-dom';
 import useToastMsg, { TToastMsg } from "../customHooks/useToastMsg";
+import { createContext, useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import { io } from "socket.io-client";
 
 export interface IUser {
     score: number,
@@ -21,8 +21,6 @@ export type TContext = {
     handleJoinRoom?: (user: string, room: string) => void;
     rooms?: Array<IRoom>;
     currentRoom?: IRoom;
-    playerOne?: IUser;
-    playerTwo?: IUser;
     userName?: string;
     play: boolean;
     setPlay: (arg: boolean) => void;
@@ -36,8 +34,6 @@ const SocketContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [socket, setSocket] = useState<any>()
     const [rooms, setRooms] = useState<IRoom[]>([])
     const [currentRoom, setCurrentRoom] = useState<IRoom>()
-    const [playerOne, setPlayerOne] = useState<IUser>()
-    const [playerTwo, setPlayerTwo] = useState<IUser>()
     const [userName, setUserName] = useState<string>("");
     const [play, setPlay] = useState<boolean>(true);
     const navigate = useNavigate()
@@ -54,7 +50,6 @@ const SocketContextProvider = ({ children }: { children: React.ReactNode }) => {
             })
 
             if (room) {
-                setPlayerOne(room.players[socket.id])
                 setCurrentRoom(room);
                 navigate("/game/Easy")
             }
@@ -66,8 +61,6 @@ const SocketContextProvider = ({ children }: { children: React.ReactNode }) => {
                 status: 'info'
             })
             if (roomDetails) {
-                setPlayerOne(roomDetails.players[Object.keys(roomDetails.players)[0]])
-                setPlayerTwo(roomDetails.players[Object.keys(roomDetails.players)[1]])
                 setCurrentRoom(roomDetails);
                 navigate("/game/Easy")
             }
@@ -115,8 +108,6 @@ const SocketContextProvider = ({ children }: { children: React.ReactNode }) => {
         rooms,
         handleRoomCreator,
         handleJoinRoom,
-        playerOne,
-        playerTwo,
         currentRoom,
         userName,
         setUserName,
