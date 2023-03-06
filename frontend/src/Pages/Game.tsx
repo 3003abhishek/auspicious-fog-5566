@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
-import { useContext, useState, useEffect, useRef } from "react";
+import { useContext, useState, useEffect, useRef, useCallback } from "react";
 import { flowSound, playSound } from "../Components/Sound";
 import { SocketContext } from "../Context/socket.context";
 import DisplayWinner from "../Components/DisplayWinner";
@@ -19,16 +19,16 @@ const Game = () => {
 
   const navigate = useNavigate();
 
-  const timer = () => {
+  const timer = useCallback(() => {
     if (timreRef.current) {
       clearInterval(timreRef.current)
     }
     timreRef.current = setInterval(() => {
       setTime((prev) => prev + 1);
     }, 1000);
-  };
+  }, []);
 
-  let handlePlayAgain = () => {
+  let handlePlayAgain = useCallback(() => {
     setTime(0);
     setCount(0);
     playSound(play);
@@ -38,7 +38,7 @@ const Game = () => {
     } else {
       setPlayAgain(!playAgain);
     }
-  };
+  }, []);
 
   if (time == 31 && currentRoom) {
     currentRoom.players[socket.id].score = count;

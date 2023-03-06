@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import { Box, Button, Heading, Tooltip } from "@chakra-ui/react";
 import DifficultyOptions from "../Components/DifficultyOptions";
 import { useState } from "react";
@@ -12,14 +12,14 @@ import { useNavigate } from "react-router-dom";
 let Difficulty = () => {
   const { play }: any = useContext(SocketContext)
   let [difficultyValue, setdifficultyValue] = useState<string>("");
-  let handleDifficulty = (propValue: string): void => {
+  let handleDifficulty = useCallback((propValue: string): void => {
     setdifficultyValue(propValue);
-  };
+  }, []);
   let navigate = useNavigate();
-  let handleBack = () => {
+  let handleBack = useCallback(() => {
     navigate("/");
     playSound(play);
-  };
+  }, []);
   return (
     <Flex
       w={"100%"}

@@ -6,7 +6,7 @@ import {
 } from "@chakra-ui/react";
 import { playSound } from "../Components/Sound";
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 type Props_diff = {
   onDifficultyChange: (propValue: string) => void;
@@ -17,7 +17,7 @@ const DifficultyOptions = ({ onDifficultyChange }: Props_diff) => {
   const navigate = useNavigate();
   const toast = useToast();
 
-  let HandleDifficulty: React.MouseEventHandler<HTMLButtonElement> = (
+  let HandleDifficulty: React.MouseEventHandler<HTMLButtonElement> = useCallback((
     event
   ) => {
     onDifficultyChange(event.currentTarget.innerText);
@@ -30,7 +30,7 @@ const DifficultyOptions = ({ onDifficultyChange }: Props_diff) => {
     });
     playSound(play);
     navigate(`/game/${event.currentTarget.innerText}`);
-  };
+  }, []);
 
   return (
     <Box

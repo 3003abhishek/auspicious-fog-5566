@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { GoMute, GoUnmute } from "react-icons/go";
 import { SocketContext } from "../../Context/socket.context";
 import { playSound, errorSound } from "../../Components/Sound";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 
 
 const GameOptions = () => {
@@ -39,16 +39,16 @@ const GameOptions = () => {
 
   const toast = useToast();
 
-  let handleNewGame = () => {
+  let handleNewGame = useCallback(() => {
     onOpen();
     playSound(play);
-  };
+  }, []);
 
-  let handleScoreboard = () => {
+  let handleScoreboard = useCallback(() => {
     playSound(play);
-  };
+  }, []);
 
-  let handleAdd = () => {
+  let handleAdd = useCallback(() => {
     if (mode === "select") {
       errorSound(play);
       toast({
@@ -86,12 +86,12 @@ const GameOptions = () => {
       playSound(play);
       navigate("/level");
     }
-  };
+  }, []);
 
-  let handleSound = () => {
+  let handleSound = useCallback(() => {
     setPlay(!play);
     playSound(play);
-  };
+  }, []);
 
   useEffect(() => {
     setMode("select");
