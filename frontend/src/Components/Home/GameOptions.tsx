@@ -48,7 +48,7 @@ const GameOptions = () => {
     playSound(play);
   }, []);
 
-  let handleAdd = useCallback(() => {
+  let handleAdd = () => {
     if (mode === "select") {
       errorSound(play);
       toast({
@@ -86,7 +86,7 @@ const GameOptions = () => {
       playSound(play);
       navigate("/level");
     }
-  }, []);
+  };
 
   let handleSound = useCallback(() => {
     setPlay(!play);
