@@ -1,27 +1,25 @@
-import React from "react";
-import { Box, Button, Heading, Text, Tooltip } from "@chakra-ui/react";
-import Players from "../Components/Home/player";
+import { useCallback, useContext } from "react";
+import { Box, Button, Heading, Tooltip } from "@chakra-ui/react";
 import DifficultyOptions from "../Components/DifficultyOptions";
 import { useState } from "react";
 
 import { Flex } from "@chakra-ui/react";
+import { SocketContext } from "../Context/socket.context";
 import LogoBar from "../Components/Home/LogoBar";
-import GameOptions from "../Components/Home/GameOptions";
 import { ArrowBackIcon } from "@chakra-ui/icons";
+import { playSound } from "../Components/Sound";
 import { useNavigate } from "react-router-dom";
-import DisplayWinner from "../Components/DisplayWinner";
-import { flowSound, playSound } from "../Components/Sound";
 let Difficulty = () => {
+  const { play }: any = useContext(SocketContext)
   let [difficultyValue, setdifficultyValue] = useState<string>("");
-  let handleDifficulty = (propValue: string): void => {
+  let handleDifficulty = useCallback((propValue: string): void => {
     setdifficultyValue(propValue);
-  };
+  }, []);
   let navigate = useNavigate();
-  console.log(difficultyValue);
-  let handleBack = () => {
+  let handleBack = useCallback(() => {
     navigate("/");
-    playSound(true);
-  };
+    playSound(play);
+  }, []);
   return (
     <Flex
       w={"100%"}
@@ -58,9 +56,7 @@ let Difficulty = () => {
       </Box>
       <Box>
         <DifficultyOptions onDifficultyChange={handleDifficulty} />
-        {/* <DisplayWinner/> */}
       </Box>
-      {/* <Players onPropChange={handlePlayer} /> */}
     </Flex>
   );
 };

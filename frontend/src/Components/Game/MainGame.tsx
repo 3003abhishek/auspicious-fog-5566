@@ -5,10 +5,12 @@ import { useParams } from "react-router";
 interface MainGameProps {
   count: number;
   setCount: (count: number) => void;
+  BoxHeight: number;
+  BoxWidth: number;
 }
 
-const MainGame = (props: MainGameProps) => {
-  let { setCount, count } = props;
+const MainGame = ({ count, setCount, BoxHeight, BoxWidth }: MainGameProps) => {
+  console.log(' BoxHeight, BoxWidth:', BoxHeight, BoxWidth)
   let { condition } = useParams();
   let [speed, setSpeed] = useState<number>(3000);
 
@@ -65,19 +67,19 @@ const MainGame = (props: MainGameProps) => {
   useEffect(() => {
     speedHandler();
     setInterval(() => {
-      changePosition(0, 900, 350);
+      changePosition(0, BoxWidth, BoxHeight);
     }, speed);
 
     setInterval(() => {
-      changePosition2(0, 900, 350);
+      changePosition2(0, BoxWidth, BoxHeight);
     }, speed + 1000);
 
     setInterval(() => {
-      changePosition3(0, 900, 350);
+      changePosition3(0, BoxWidth, BoxHeight);
     }, speed + 2000);
 
     setInterval(() => {
-      changePosition4(0, 900, 350);
+      changePosition4(0, BoxWidth, BoxHeight);
     }, speed + 3000);
   }, []);
 
@@ -85,8 +87,8 @@ const MainGame = (props: MainGameProps) => {
     <>
       <Box
         className="game"
-        h="50px"
-        w="50px"
+        h={{ lg: "50px", md: "40px", base: "20px" }}
+        w={{ lg: "50px", md: "40px", base: "20px" }}
         bgColor="orange"
         borderRadius="50%"
         cursor="pointer"
@@ -94,14 +96,14 @@ const MainGame = (props: MainGameProps) => {
         top={position.top + "px"}
         left={position.left + "px"}
         onClick={() => {
-          changePosition(0, 900, 350);
+          changePosition(0, BoxWidth, BoxHeight);
           setCount(count + 1);
         }}
       ></Box>
       <Box
         className="game"
-        h="50px"
-        w="50px"
+        h={{ lg: "50px", md: "40px", base: "20px" }}
+        w={{ lg: "50px", md: "40px", base: "20px" }}
         bgColor="orange"
         borderRadius="50%"
         cursor="pointer"
@@ -109,14 +111,14 @@ const MainGame = (props: MainGameProps) => {
         top={position2.top + "px"}
         left={position2.left + "px"}
         onClick={() => {
-          changePosition2(0, 900, 350);
+          changePosition2(0, BoxWidth, BoxHeight);
           setCount(count + 1);
         }}
       ></Box>
       <Box
         className="game"
-        h="50px"
-        w="50px"
+        h={{ lg: "50px", md: "40px", base: "20px" }}
+        w={{ lg: "50px", md: "40px", base: "20px" }}
         bgColor="orange"
         borderRadius="50%"
         cursor="pointer"
@@ -124,15 +126,15 @@ const MainGame = (props: MainGameProps) => {
         top={position3.top + "px"}
         left={position3.left + "px"}
         onClick={() => {
-          changePosition3(0, 900, 350);
+          changePosition3(0, BoxWidth, BoxHeight);
           setCount(count + 1);
         }}
       ></Box>
       {count === 10 && (
         <Box
           className="game"
-          h="50px"
-          w="50px"
+          h={{ lg: "50px", md: "40px", base: "20px" }}
+          w={{ lg: "50px", md: "40px", base: "20px" }}
           bgColor="red"
           borderRadius="50%"
           cursor="pointer"
@@ -140,7 +142,7 @@ const MainGame = (props: MainGameProps) => {
           top={position4.top + "px"}
           left={position4.left + "px"}
           onClick={() => {
-            changePosition4(0, 900, 350);
+            changePosition4(0, BoxWidth, BoxHeight);
             setCount(count + 10);
           }}
         ></Box>

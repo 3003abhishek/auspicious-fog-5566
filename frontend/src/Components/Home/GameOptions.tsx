@@ -1,4 +1,3 @@
-import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -16,50 +15,39 @@ import {
   Flex,
   VStack,
   useToast,
-  Switch,
 } from "@chakra-ui/react";
-import { GoMute, GoUnmute } from "react-icons/go";
-import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { playSound, errorSound } from "../../Components/Sound";
-
-
+import { GoMute, GoUnmute } from "react-icons/go";
 import { SocketContext } from "../../Context/socket.context";
+import { playSound, errorSound } from "../../Components/Sound";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 
 
-type Props = {
-  backgroundColor: string;
-};
 const GameOptions = () => {
   const userNameRef = useRef<HTMLInputElement>(null);
   const roomNameRef = useRef<HTMLInputElement>(null);
   const optionRef = useRef<HTMLSelectElement>(null);
   const roomsRef = useRef<HTMLSelectElement>(null);
   const [showOptions, setShowOptions] = useState<boolean>(true);
-  let [player, setPlayer] = React.useState<string>("");
   let [mode, setMode] = React.useState<string>("");
-  let [single, setSingle] = React.useState<string>("");
-  let [multi, setMulti] = React.useState<string>("");
   let [player1, setPlayer1] = React.useState<string>("");
   let [player2, setPlayer2] = React.useState<string>("");
-  let [play, setPlay] = React.useState<boolean>(true);
   let { isOpen, onOpen, onClose } = useDisclosure();
-  const { setUserName, socket, rooms, handleRoomCreator, handleJoinRoom }: any =
-    useContext(SocketContext);
+  const { setUserName, socket, rooms, handleRoomCreator, handleJoinRoom, setPlay, play }: any = useContext(SocketContext);
 
   let navigate = useNavigate();
 
   const toast = useToast();
 
-  let handleNewGame = () => {
+  let handleNewGame = useCallback(() => {
     onOpen();
     playSound(play);
-  };
+  }, []);
 
-  let handleScoreboard = () => {
+  let handleScoreboard = useCallback(() => {
     playSound(play);
-  };
-  console.log(play);
+  }, []);
+
   let handleAdd = () => {
     if (mode === "select") {
       errorSound(play);
@@ -100,18 +88,15 @@ const GameOptions = () => {
     }
   };
 
-  let handleSound = () => {
+  let handleSound = useCallback(() => {
     setPlay(!play);
     playSound(play);
-  };
+  }, []);
 
   useEffect(() => {
     setMode("select");
   }, []);
 
-  // console.log(mode);
-  // console.log(player1);
-  // console.log(player2);
   return (
     <Box
       w={{ lg: "25%", md: "30%", base: "75%" }}
@@ -141,31 +126,18 @@ const GameOptions = () => {
         >
           Score Board
         </Button>
-        {play ? (
-          <Button
-            rightIcon={<GoUnmute />}
-            colorScheme="yellow"
-            variant="solid"
-            size={{ lg: "lg", md: "md", base: "md" }}
-            bgColor={"green.400"}
-            _hover={{ bgColor: "green.400" }}
-            onClick={handleSound}
-          >
-            Sound
-          </Button>
-        ) : (
-          <Button
-            rightIcon={<GoMute />}
-            colorScheme="yellow"
-            bgColor={"#ecc94b"}
-            _hover={{ bgColor: "#ecc94b" }}
-            variant="solid"
-            size={{ lg: "lg", md: "md", base: "md" }}
-            onClick={handleSound}
-          >
-            Sound
-          </Button>
-        )}
+        {/* {play ? ( */}
+        <Button
+          rightIcon={play ? <GoUnmute /> : <GoMute />}
+          colorScheme="yellow"
+          variant="solid"
+          size={{ lg: "lg", md: "md", base: "md" }}
+          bgColor={play ? "green.400" : "#ecc94b"}
+          _hover={{ bgColor: play ? "green.400" : "#ecc94b" }}
+          onClick={handleSound}
+        >
+          Sound
+        </Button>
       </Flex>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

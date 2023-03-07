@@ -1,12 +1,13 @@
-import clickSound from "../Asset/sound/click.mp3";
 import flowtune from "../Asset/sound/flowmusic.mp3";
+import clickSound from "../Asset/sound/click.mp3";
 import error from "../Asset/sound/error.mp3";
 
 export let flowSound = (condition: boolean) => {
+  let gameAudio = new Audio(flowtune);
   if (condition) {
-    new Audio(flowtune).play();
+    gameAudio.play();
   } else {
-    new Audio(flowtune).pause();
+    gameAudio.pause();
   }
 };
 

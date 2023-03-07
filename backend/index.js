@@ -1,6 +1,6 @@
 const io = require("socket.io")(3000, {
     cors: {
-        origin: ['http://localhost:5173', 'http://127.0.0.1:5173']
+        origin: 'http://localhost:5173',
     }
 });
 
@@ -43,7 +43,7 @@ io.on("connection", socket => {
             room.vacant = false;
             room.gameStart = true;
             socket.join(roomName);
-            io.to(roomName).emit("room:joined", `${userName} joining the room ${roomName}`, existing_room_with_same_name[0])
+            io.to(roomName).emit("room:joined", `${userName} joined the room ${roomName}`, existing_room_with_same_name[0])
             io.emit("get:rooms", rooms)
         } else {
             io.to(socket.id).emit("room:joined", existing_room_with_same_name.length ? `${roomName} already full` : `${roomName} doesn't exist`)
@@ -74,8 +74,10 @@ io.on("connection", socket => {
             if (player1.score == 0 && player2.score == 0) {
                 rooms[index].gameStart = false;
                 io.to(socket.id).emit("room:restarted", rooms[index]);
-                rooms[index].gameStart = true;
-                io.to(currentRoom.room_name).emit("room:restarted", rooms[index]);
+                setTimeout(() => {
+                    rooms[index].gameStart = true;
+                    io.to(currentRoom.room_name).emit("room:restarted", rooms[index]);
+                }, 500)
             } else {
                 rooms[index].gameStart = false;
                 io.to(socket.id).emit("room:restarted", rooms[index]);
